@@ -2,6 +2,7 @@ import React, { useEffect, useState, Fragment } from 'react';
 import axios from 'axios';
 import DisplayMusic from './components/DisplayMusic/DisplayMusic'
 import PostSong from './components/PostSong/PostSong';
+import SearchBar from './components/SearchBar/SearchBar';
 
 
 const BASEURL = 'http://127.0.0.1:8000/music/'
@@ -9,7 +10,8 @@ const BASEURL = 'http://127.0.0.1:8000/music/'
 function App() {
 
   const [songInfo, setSongInfo] = useState([]);
-
+  const[addSong, setAddSong] = useState(false);
+  
   useEffect(() => {
     getMusic();
   }, []);
@@ -44,10 +46,10 @@ function App() {
   } 
   return (
     <Fragment>
-      <div>
+        <SearchBar searchProp = {getMusic}/>
         <DisplayMusic music = {songInfo} delete = {handleDelete}/>
-        <PostSong newSongProperty = {addNewSong}/>
-      </div>
+        <button className='openModalBtn'  onClick={() => {setAddSong(true)}}>Add New Song To Library</button>
+        {addSong && <PostSong newSongProperty = {addNewSong} closeModal={setAddSong}/>}
     </Fragment>
   );
 }
